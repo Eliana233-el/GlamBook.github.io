@@ -362,7 +362,18 @@ function selectHora(btn, h) {
 window.addEventListener('DOMContentLoaded', () => {
   const el = document.getElementById('data-hora');
   const now = new Date(); now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-  el.min = now.toISOString().slice(0, 16);  initAdminPage();});
+  el.min = now.toISOString().slice(0, 16);
+  initAdminPage();
+  initMobileNav();
+});
+
+function initMobileNav() {
+  const toggle = document.querySelector('.menu-toggle');
+  const nav = document.querySelector('nav');
+  if (!toggle || !nav) return;
+  toggle.addEventListener('click', () => nav.classList.toggle('nav-open'));
+  document.querySelectorAll('nav ul li a').forEach(link => link.addEventListener('click', () => nav.classList.remove('nav-open')));
+}
 
 /* ═══ RESUMO ═══ */
 function buildResumo() {
