@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlamBook | Gestão de Marcações Tete</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo" onclick="showPage('booking')"><img src="logo.jpeg" alt="GlamBook" class="logo-img"></div>
+    <ul>
+      <li><a onclick="showPage('booking')">Início</a></li>
+      <li><a onclick="showPage('history')" class="pill pill-gold">📋 Marcações</a></li>
+      <li><a onclick="showPage('support')" class="pill pill-rose">💬 Suporte</a></li>
+      <li><a onclick="showPage('admin')" class="pill pill-gold">⚙️ Admin</a></li>
+    </ul>
+    <button class="menu-toggle">&#9776;</button>
+  </nav>
+</header>
+
+<!-- ══════════ BOOKING PAGE ══════════ -->
+<div id="page-booking" class="page active">
+  <div class="container">
+
+    <div class="hero-text">
+      <p class="eyebrow">Salões em Tete, Moçambique</p>
+      <h2>Beleza ao seu<br><em>alcance</em></h2>
+      <div class="hero-divider"><span></span><i>Agende o seu momento</i><span></span></div>
+      <p class="hero-desc">Escolha o salão, o profissional e o horário ideal. Rápido, simples e elegante.</p>
+      <div class="features">
+        <div class="feature-item"><span class="feature-dot"></span>3 salões disponíveis em Tete</div>
+        <div class="feature-item"><span class="feature-dot"></span>Confirmação imediata</div>
+        <div class="feature-item"><span class="feature-dot"></span>Profissionais certificados</div>
+      </div>
+      <div class="salao-gallery" id="salao-gallery">
+        <div class="gallery-placeholder" id="gallery-emoji">💆‍♀️</div>
+        <div class="gallery-info">
+          <h4 id="gallery-nome">—</h4>
+          <p id="gallery-morada">—</p>
+          <div class="gallery-tags" id="gallery-tags"></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="booking-card">
+      <div class="card-header">
+        <h1>Reserve o seu momento</h1>
+        <p>Siga os passos para confirmar a sua marcação.</p>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-steps">
+          <div class="step-item"><div class="step-circle active" id="sc1">1</div><div class="step-line" id="sl1"></div></div>
+          <div class="step-item"><div class="step-circle" id="sc2">2</div><div class="step-line" id="sl2"></div></div>
+          <div class="step-item"><div class="step-circle" id="sc3">3</div><div class="step-line" id="sl3"></div></div>
+          <div class="step-item" style="flex:0"><div class="step-circle" id="sc4">4</div></div>
+        </div>
+        <div class="step-labels">
+          <span class="step-label active" id="sl-1">Salão</span>
+          <span class="step-label" id="sl-2">Profissional</span>
+          <span class="step-label" id="sl-3">Horário</span>
+          <span class="step-label" id="sl-4">Resumo</span>
+        </div>
+      </div>
+
+      <form id="agendamento-form" novalidate>
+
+        <!-- STEP 1 -->
+        <div class="form-section active" id="step1">
+          <div class="form-group">
+            <label><span class="step-num">01</span> Escolha o Salão</label>
+            <div class="select-wrapper">
+              <select id="salao">
+                <option value="">Selecione um salão...</option>
+                <option value="brilho">Salão Brilho Feminino — Centro</option>
+                <option value="estilo">Estilo &amp; Charme — Matundo</option>
+                <option value="vip">Espaço VIP — Moatize</option>
+              </select>
+              <span class="select-arrow">↓</span>
+            </div>
+            <div class="field-error" id="err-salao">Por favor escolha um salão</div>
+          </div>
+          <div class="form-group">
+            <label><span class="step-num">02</span> Escolha o Serviço</label>
+            <div class="select-wrapper">
+              <select id="servico" disabled>
+                <option value="">Primeiro, selecione um salão...</option>
+              </select>
+              <span class="select-arrow">↓</span>
+            </div>
+            <div class="field-error" id="err-servico">Por favor escolha um serviço</div>
+          </div>
+          <div class="form-nav">
+            <button type="button" class="btn-next" onclick="goStep(2)"><span>Continuar</span><span class="btn-icon">→</span></button>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="form-section" id="step2">
+          <div class="form-group">
+            <label><span class="step-num">03</span> Escolha o Profissional</label>
+            <div class="select-wrapper">
+              <select id="atendente" disabled>
+                <option value="">Selecione um serviço primeiro...</option>
+              </select>
+              <span class="select-arrow">↓</span>
+            </div>
+            <p class="field-hint" id="atendente-hint">Selecione um serviço para ver os profissionais disponíveis.</p>
+            <div class="field-error" id="err-atendente">Por favor escolha um profissional</div>
+          </div>
+          <div class="preco-estimativa" id="preco-box">
+            <div><div class="preco-label">Preço do Serviço</div></div>
+            <div class="preco-valor" id="preco-valor">— <span>MT</span></div>
+          </div>
+          <div class="form-group" style="margin-top:18px">
+            <label><span class="step-num">04</span> O seu Nome</label>
+            <input type="text" id="nome-cliente" placeholder="Ex: Maria João" autocomplete="name">
+            <div class="field-error" id="err-nome">Por favor insira o seu nome</div>
+          </div>
+          <div class="form-nav">
+            <button type="button" class="btn-prev" onclick="goStep(1)"><span class="btn-icon">←</span><span>Voltar</span></button>
+            <button type="button" class="btn-next" onclick="goStep(3)"><span>Continuar</span><span class="btn-icon">→</span></button>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="form-section" id="step3">
+          <div class="form-group">
+            <label><span class="step-num">05</span> Data</label>
+            <input type="datetime-local" id="data-hora">
+            <div class="field-error" id="err-data">Por favor escolha uma data futura</div>
+          </div>
+          <div class="form-group">
+            <label><span class="step-num">06</span> Horário Disponível</label>
+            <div class="horarios-grid" id="horarios-grid"></div>
+            <div class="field-error" id="err-hora">Por favor selecione um horário</div>
+          </div>
+          <div class="form-nav">
+            <button type="button" class="btn-prev" onclick="goStep(2)"><span class="btn-icon">←</span><span>Voltar</span></button>
+            <button type="button" class="btn-next" onclick="goStep(4)"><span>Ver Resumo</span><span class="btn-icon">→</span></button>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="form-section" id="step4">
+          <div class="resumo-card" id="resumo-card"></div>
+          <div class="form-nav">
+            <button type="button" class="btn-prev" onclick="goStep(3)"><span class="btn-icon">←</span><span>Editar</span></button>
+            <button type="submit" class="btn-confirmar"><span>Confirmar</span><span class="btn-icon">✦</span></button>
+          </div>
+        </div>
+
+      </form>
+    </section>
+  </div>
+</div>
+
+<!-- ══════════ CONFIRM PAGE ══════════ -->
+<div id="page-confirm" class="page">
+  <div class="confirm-card">
+    <div class="confirm-logo-wrap">
+      <div class="confirm-logo-bar"></div>
+      <img src="logo.jpeg" alt="GlamBook" class="confirm-logo">
+    </div>
+    <h2>Tudo confirmado!</h2>
+    <p class="confirm-sub">A sua marcação foi registada com sucesso.</p>
+    <div class="confirm-details" id="confirm-details"></div>
+    <p class="confirm-sms">📲 Enviamos um SMS de confirmação para o seu número.</p>
+    <div class="confirm-actions">
+      <button class="btn-gold" onclick="novaMarcacao()">+ Nova Marcação</button>
+      <button class="btn-outline" onclick="showPage('history')">Ver Histórico</button>
+      <button class="btn-outline" onclick="showPage('support')">Suporte</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ HISTORY PAGE ══════════ -->
+<div id="page-history" class="page">
+  <h2 class="page-title">Minhas Marcações</h2>
+  <p class="page-sub">Histórico de todas as suas reservas.</p>
+  <div id="history-content"></div>
+</div>
+
+<!-- ══════════ SUPPORT PAGE ══════════ -->
+<div id="page-support" class="page">
+
+  <div class="support-hero">
+    <h2 class="page-title">Suporte GlamBook</h2>
+    <p class="page-sub">Estamos disponíveis para ajudar. Contacte-nos directamente ou envie-nos uma mensagem.</p>
+  </div>
+
+  <!-- CONTACTOS -->
+  <div class="contact-section">
+    <div class="section-label">Contacto Directo</div>
+    <div class="contact-grid">
+
+      <a class="contact-card cc-whatsapp" href="https://wa.me/258860889096" target="_blank">
+        <div class="contact-icon">💬</div>
+        <div class="contact-info">
+          <strong>WhatsApp</strong>
+          <span>+258 86 088 9096</span>
+          <span class="avail-badge">Online agora</span>
+        </div>
+        <span class="contact-arrow">→</span>
+      </a>
+
+      <div class="contact-card cc-phone" onclick="window.location='tel:+258860889096'">
+        <div class="contact-icon">📞</div>
+        <div class="contact-info">
+          <strong>Telefone</strong>
+          <span>+258 86 088 9096</span>
+          <small>Seg–Sáb, 08h–18h</small>
+        </div>
+        <span class="contact-arrow">→</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FORMULÁRIO -->
+  <div class="complaint-section">
+    <div class="section-label">Enviar Mensagem ou Reclamação</div>
+    <div class="complaint-wrap">
+      <h3>Como podemos ajudar?</h3>
+      <p class="sub">Preencha o formulário abaixo e respondemos em até 24 horas úteis.</p>
+
+      <div class="complaint-grid">
+
+        <!-- Tipo -->
+        <div class="form-group full">
+          <label>Tipo de contacto</label>
+          <div class="tipo-grid">
+            <button type="button" class="tipo-btn selected" id="tipo-reclamacao" onclick="selectTipo(this)">
+              <span class="tipo-icon">😤</span>Reclamação
+            </button>
+            <button type="button" class="tipo-btn" id="tipo-sugestao" onclick="selectTipo(this)">
+              <span class="tipo-icon">💡</span>Sugestão
+            </button>
+            <button type="button" class="tipo-btn" id="tipo-elogio" onclick="selectTipo(this)">
+              <span class="tipo-icon">⭐</span>Elogio
+            </button>
+            <button type="button" class="tipo-btn" id="tipo-info" onclick="selectTipo(this)">
+              <span class="tipo-icon">❓</span>Informação
+            </button>
+            <button type="button" class="tipo-btn" id="tipo-cancelamento" onclick="selectTipo(this)">
+              <span class="tipo-icon">❌</span>Cancelamento
+            </button>
+            <button type="button" class="tipo-btn" id="tipo-outro" onclick="selectTipo(this)">
+              <span class="tipo-icon">📝</span>Outro
+            </button>
+          </div>
+        </div>
+
+        <!-- Nome -->
+        <div class="form-group">
+          <label>Nome completo</label>
+          <input type="text" id="c-nome" placeholder="O seu nome">
+          <div class="field-error" id="err-c-nome">Campo obrigatório</div>
+        </div>
+
+        <!-- Contacto -->
+        <div class="form-group">
+          <label>Telefone ou Email</label>
+          <input type="text" id="c-contacto" placeholder="+258 ou email">
+          <div class="field-error" id="err-c-contacto">Campo obrigatório</div>
+        </div>
+
+        <!-- Salão -->
+        <div class="form-group">
+          <label>Salão relacionado</label>
+          <div class="select-wrapper">
+            <select id="c-salao">
+              <option value="">Nenhum / Geral</option>
+              <option>Salão Brilho Feminino — Centro</option>
+              <option>Estilo &amp; Charme — Matundo</option>
+              <option>Espaço VIP — Moatize</option>
+            </select>
+            <span class="select-arrow">↓</span>
+          </div>
+        </div>
+
+        <!-- Avaliação -->
+        <div class="form-group">
+          <label>Avaliação (opcional)</label>
+          <div class="rating-stars" id="rating-stars">
+            <span class="star" onclick="setRating(1)">★</span>
+            <span class="star" onclick="setRating(2)">★</span>
+            <span class="star" onclick="setRating(3)">★</span>
+            <span class="star" onclick="setRating(4)">★</span>
+            <span class="star" onclick="setRating(5)">★</span>
+          </div>
+        </div>
+
+        <!-- Mensagem -->
+        <div class="form-group full">
+          <label>Mensagem</label>
+          <textarea id="c-mensagem" placeholder="Descreva a sua situação com o máximo de detalhe possível..." oninput="updateCharCount(this)" maxlength="500"></textarea>
+          <div class="char-count" id="char-count">0 / 500</div>
+          <div class="field-error" id="err-c-mensagem">Por favor escreva a sua mensagem</div>
+        </div>
+
+        <!-- Submit -->
+        <div class="full submit-row">
+          <button class="btn-submit" onclick="submitComplaint()">Enviar Mensagem ✦</button>
+          <div class="form-success" id="form-success">
+            <span>✅</span>
+            <span>Mensagem enviada! Entraremos em contacto em breve.</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="page-admin" class="page">
+  <div id="admin-auth-modal" class="admin-auth-modal">
+    <div class="auth-card">
+      <h3>Autenticação Admin</h3>
+      <p>Insira a senha do seu salão para continuar.</p>
+      <div class="form-group">
+        <label>Selecione o salão</label>
+        <div class="select-wrapper">
+          <select id="auth-salao">
+            <option value="">Escolha um salão...</option>
+            <option value="brilho">Salão Brilho Feminino — Centro</option>
+            <option value="estilo">Estilo &amp; Charme — Matundo</option>
+            <option value="vip">Espaço VIP — Moatize</option>
+          </select>
+          <span class="select-arrow">↓</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" id="auth-password" placeholder="Digite a senha">
+        <div class="field-error" id="auth-error" style="display:none;">Senha incorreta</div>
+      </div>
+      <div class="auth-actions">
+        <button type="button" class="btn-submit" onclick="authenticateAdmin()">Entrar</button>
+        <button type="button" class="btn-prev" onclick="closeAdminAuth()">Cancelar</button>
+      </div>
+      <div class="auth-actions" style="margin-top:12px;gap:8px;">
+        <button type="button" class="btn-prev" onclick="revealAdminPassword()">Ver senha</button>
+      </div>
+      <p id="auth-password-display" class="auth-info" style="display:none;word-break:break-word;"></p>
+      <p class="auth-info">Senha de administrador padrão é mostrada ao proprietário do salão.</p>
+    </div>
+  </div>
+  <div id="admin-content" class="admin-content hide">
+    <div class="admin-card">
+      <div class="page-title">Administração do Salão</div>
+      <p class="page-sub">Gerencie seu salão: adicione funcionários, serviços e preços.</p>
+      <button type="button" class="btn-prev" onclick="logoutAdmin()" style="margin-top:16px;">Sair</button>
+      <div id="admin-tools" class="admin-tools" style="margin-top:28px;">
+      <div class="admin-section">
+        <div class="section-label">Serviços</div>
+        <form id="admin-servico-form" class="admin-form">
+          <div class="form-group">
+            <label>Nome do serviço</label>
+            <input type="text" id="admin-service-label" placeholder="Ex: Corte de Cabelo">
+          </div>
+          <div class="form-group">
+            <label>Preço (MT)</label>
+            <input type="number" id="admin-service-price" placeholder="Ex: 320" min="0">
+          </div>
+          <div class="form-group">
+            <label>ID interno (opcional)</label>
+            <input type="text" id="admin-service-value" placeholder="Ex: corte-de-cabelo">
+          </div>
+          <input type="hidden" id="admin-service-edit" value="">
+          <div class="admin-action">
+            <button type="submit" class="btn-submit">Salvar Serviço</button>
+            <button type="button" class="btn-prev" onclick="resetAdminServiceForm()">Cancelar</button>
+          </div>
+        </form>
+        <div id="admin-servicos-list" class="admin-list"></div>
+      </div>
+      <div class="admin-section">
+        <div class="section-label">Funcionários</div>
+        <form id="admin-prof-form" class="admin-form">
+          <div class="form-group">
+            <label>Nome do funcionário</label>
+            <input type="text" id="admin-prof-label" placeholder="Ex: Ana Maria">
+          </div>
+          <div class="form-group">
+            <label>Especialidade</label>
+            <input type="text" id="admin-prof-esp" placeholder="Ex: Corte & Hidratação">
+          </div>
+          <div class="form-group">
+            <label>Serviços atribuídos</label>
+            <select id="admin-prof-servicos" multiple style="min-height:120px;"></select>
+          </div>
+          <input type="hidden" id="admin-prof-edit" value="">
+          <div class="admin-action">
+            <button type="submit" class="btn-submit">Salvar Funcionário</button>
+            <button type="button" class="btn-prev" onclick="resetAdminProfForm()">Cancelar</button>
+          </div>
+        </form>
+        <div id="admin-profs-list" class="admin-list"></div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 GlamBook Tete — O seu estilo a um clique.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
